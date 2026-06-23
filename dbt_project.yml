@@ -4,6 +4,7 @@
 # name or the intended use of these models
 name: 'fabric_dbt_projekt'
 version: '1.0.0'
+config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
 profile: 'fabric_dbt_projekt'
@@ -34,3 +35,13 @@ models:
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+    staging:
+      +materialized: view
+      +schema: stg
+
+vars:
+  dev_days_back_contract: 180
+  dev_days_back_activity: 90
+  dev_days_back_invoice: 180
+  dev_sample_modulo: 20
+  dev_sample_remainder: 1
