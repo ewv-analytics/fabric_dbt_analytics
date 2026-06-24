@@ -1,0 +1,548 @@
+version: 2
+
+sources:
+  - name: evi_raw
+    description: "Rohdaten aus dem EVI-System (Verträge, Kunden, Aktivitäten)"
+    
+    database: "{{ target.database }}"   # optional (z. B. Fabric / DWH)
+    schema: evi_raw                     # Bronze / Landing Schema
+    
+    loader: "Fabric Mirroring / ETL Pipeline"
+
+    freshness:
+      warn_after: {count: 12, period: hour}
+      error_after: {count: 24, period: hour}
+
+    tables:
+     # ---------------------------------------------
+      - name: ACTIVITY
+        description: "Kontakte/Kundenaktivitäten von Geschäftpartnern aus EVI"
+        
+        columns:
+          
+          # Schlüssel
+          - name: pk
+            description: "Technischer Primärschlüssel der Aktivität"
+            tests:
+              - not_null
+              - unique
+
+          # FK / Referenzen
+          - name: defaultcontract
+            description: "Verknüpfung zum Vertrag (FK)"
+
+          - name: defaultcontactperson
+            description: "Verknüpfung zur Kontaktperson"
+
+          - name: defaultinstallation
+            description: "Verknüpfung zur Anlage"
+
+          - name: defaultlocation
+            description: "Verknüpfung zum Anschlussobjekt"
+
+          # Zeitfelder
+          - name: startdate
+            description: "Startdatum der Aktivität"
+
+          - name: enddate
+            description: "Enddatum der Aktivität"
+
+          - name: reminddate
+            description: "Erinnerungsdatum"
+
+          # Inhalt / Kommunikation
+          - name: text
+            description: "Freitextbeschreibung der Aktivität"
+            meta:
+              sensitive: true
+
+          - name: subject
+            description: "Betreff der Aktivität"
+
+          # Klassifizierung
+          - name: acttypekey
+            description: "Art der Aktivität"
+
+          - name: actstatuskey
+            description: "Status der Aktivität"
+
+          - name: contactreason
+            description: "Anlass des Kontakts"
+            meta:
+              business_critical: true
+
+          - name: contactresult
+            description: "Ergebnis des Kontakts"
+            meta:
+              business_critical: true
+
+          - name: sourcekey
+            description: "Quelle / Kampagnenart"
+
+          # Metriken
+          - name: duration
+            description: "Dauer der Aktivität"
+
+          - name: contactcosts
+            description: "Kosten der Aktivität"
+
+          # Systemfelder
+          - name: active
+            description: "Datensatz aktiv (1 = gültig)"
+
+          - name: createdate
+            description: "Anlagedatum"
+
+          - name: updatedate
+            description: "Letztes Änderungsdatum"
+
+          - name: createuser
+            description: "Ersteller"
+
+          - name: updateuser
+            description: "Letzte Änderung durch"
+      # ---------------------------------------------     
+      - name: ADDRESS
+        description: "Adressdaten aus EVI"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel der Adresse"
+            tests:
+              - not_null
+              - unique
+
+          - name: personpk
+            description: "FK zur Person"
+
+          - name: locationpk
+            description: "FK zum Standort"
+
+          # Adressdaten (teilweise PII)
+          - name: city
+            description: "Stadt"
+
+          - name: state
+            description: "Bundesland"
+
+          - name: zipcode
+            description: "Postleitzahl"
+
+          - name: addresstype
+            description: "Typ der Adresse (z.B. street, pobox, majorcustomer)"
+
+          - name: addressaddition
+            description: "Adresszusatz"
+
+          - name: countrykey
+            desctiption: "Land"
+
+          # Geo
+          - name: lat
+            description: "Breitengrad"
+
+          - name: lng
+            description: "Längengrad"
+
+          # Steuerung
+          - name: isdefault
+            description: "Standardadresse (1 = ja)"
+
+          # Systemfelder
+          - name: active
+            description: "Datensatz aktiv (1 = gültig)"
+
+          - name: createdate
+            description: "Erstellungsdatum"
+
+          - name: updatedate
+            description: "Änderungsdatum"
+      # ---------------------------------------------     
+      - name: BILLINGDATAYEAR
+        description: "Abrechnungsperioden und verbrauchs-/kostenbezogene Jahresdaten"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Datensatzes"
+            tests:
+              - not_null
+              - unique
+
+          # Referenzen
+          - name: installationpk
+            description: "FK zur Installation (Zählpunkt / Anlage)"
+
+          - name: contractpk
+            description: "FK zum Vertrag"
+
+          - name: customerpk
+            description: "FK zum Kunden"
+
+          # Zeitraum 
+          - name: fromdate
+            description: "Beginn der Abrechnungsperiode"
+
+          - name: untildate
+            description: "Ende der Abrechnungsperiode"
+
+          # Verbrauch / Werte
+          - name: freenumber1
+            description: "Verbrauch"
+
+          - name: freenumber22
+            description: "Rechnungsnummer"
+
+          - name: freedate1
+            description: "Abrechnungsdatum"
+          
+          - name: freedate3
+            description: "Rechnungsdatum"
+
+          # Freitexte 
+          - name: freetext2
+            description: "Abrechnungskennzeichen"
+
+          - name: freetext8
+            description: "Bedarfsart"
+
+          # Systemfelder
+          - name: createdate
+            description: "Erstellungsdatum"
+
+          - name: updatedate
+            description: "Änderungsdatum"
+
+          - name: createuser
+            description: "Erstellt durch"
+
+          - name: updateuser
+            description: "Geändert durch"
+
+          - name: status
+            description: "Interner Status"
+
+          # Zusatzreferenzen
+          - name: c2akpk
+            description: "FK zu weiterem Objekt"
+      # ---------------------------------------------
+      - name: C12INSTACC
+        description: "Anlagekonto von EVI; Verknüpfung von Vertrag, Kunde, Installation inkl. Liefer- und Tarifinformationen"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Datensatzes"
+            tests:
+              - not_null
+              - unique
+
+          # zentrale Beziehungen
+          - name: contractaccpk
+            description: "FK zum Vertragskonto"
+
+          - name: installationpk
+            description: "FK zur Installation (Zählpunkt)"
+
+          - name: customerpk
+            description: "FK zum Kunden"
+
+          # Lieferzeitraum
+          - name: deliverystart
+            description: "Beginn der Belieferung"
+
+          - name: deliveryend
+            description: "Ende der Belieferung"
+
+          - name: deliverystate
+            description: "Status der Belieferung"
+
+          # Tarif / Produkt
+          - name: medium
+            description: "Medium (Strom, Gas, Wasser)"
+
+          - name: loadprofile
+            description: "Lastprofil"
+
+          - name: measuringmethod
+            description: "Messverfahren"
+
+          # Standort
+          - name: city
+            description: "Ort"
+
+          - name: state
+            description: "Bundesland"
+
+          - name: zip
+            description: "Postleitzahl"
+
+          - name: countrykey
+            description: "Länderschlüssel"
+
+          # Netz & Technik
+          - name: gridoperator
+            description: "Service Provider"
+
+          - name: voltagelevel
+            description: "Spannungsebene"
+
+          - name: gridlevel
+            description: "Netzebene"
+
+          # Abrechnung / Nutzung
+          - name: customerinvoice
+            description: "Rechnungsbezug"
+          
+          - name: custnoinvoice
+            description: "Rechnungsempfänger"
+
+          - name: ratetimeslpk
+            description: "Tarifzeitscheibe"
+
+          - name: c2prodid
+            description: "Preisstaffel"
+
+          - name: c2vertrag
+            description: "Vertrag (FK)"
+
+          - name: c2cvsynprf
+            description: "Lastprofil LIMA"
+
+          - name: c2cvkuef1
+            description: "Kündigungsfrist"
+
+          - name: c2htntkz
+            description: "Vertragsart"
+
+          # Lifecycle / Wechsel (sehr wichtig für Churn 🔥)
+          - name: c2cvartzug
+            description: "Zugangsart"
+
+          - name: c2cvartabg
+            description: "Abgangsart"
+
+          - name: c2zgr
+            description: "Zählergröße"
+
+          - name: c2zartg
+            description: "Zählerart (Gas)"
+
+          # Verbrauch / Kenngrößen
+          - name: yearconsmeas
+            description: "gemessener Jahresverbrauch"
+
+          - name: yearconsprog
+            description: "prognostizierter Jahresverbrauch"
+
+          # Synchronisation / technische IDs
+          - name: syncid
+            description: "Technische Synchronisations-ID"
+
+          # Systemfelder
+          - name: active
+            description: "Datensatz aktiv (1 = gültig)"
+
+          - name: createdate
+            description: "Erstellungsdatum"
+
+          - name: updatedate
+            description: "Änderungsdatum"
+
+          - name: createuser
+            description: "Erstellt durch"
+
+          - name: updateuser
+            description: "Geändert durch"
+
+          - name: status
+            description: "Interner Status"
+      # ---------------------------------------------
+      - name: C12RATETYPE
+        description: "Tarifdefinitionen und Produktmerkmale"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Tarifs"
+            tests:
+              - not_null
+              - unique
+
+          # Beschreibung
+          - name: description
+            description: "Tarifbeschreibung"
+
+          - name: sapdescription
+            description: "Beschreibung aus SAP"
+
+          - name: shortcut
+            description: "Kurzbezeichnung"
+
+          - name: sapshortcut
+            description: "SAP Shortcut"
+
+          # Produktlogik
+          - name: medium
+            description: "Medium (Strom, Gas, Wasser etc.)"
+
+          - name: consumptiontype
+            description: "Verbrauchstyp"
+
+          # Online / Business
+          - name: eco
+            description: "Öko-Tarif Kennzeichen"
+
+          - name: onlineratetype
+            description: "Online-Tarif"
+
+          - name: b2b
+            description: "B2B Kennzeichnung"
+
+          # Produktmerkmale
+          - name: c2infoBox
+            description: "Produktinfo"
+
+          - name: c2langtextprod
+            description: "Langtext Produkt"
+
+          - name: c2portalorder
+            description: "Portalbestellbarkeit"
+
+          - name: c2grundverstarif
+            description: "Grundversorgungstarif"
+
+          # Vertrags-/Tariflogik
+          - name: c2vertrag
+            description: "Vertragskennzeichnung"
+
+          - name: c2produktmatrix
+            description: "Produktmatrix"
+
+          - name: c2regionplus
+            description: "Regionaltarif"
+
+          - name: c2wpcombi
+            description: "Wärmepumpe Kombination"
+
+          - name: c2dynamtarif
+            description: "Dynamischer Tarif"
+
+          # Nutzung / Segment
+          - name: c2mieterstrom
+            description: "Mieterstrom-Tarif"
+
+          - name: c2leerstand
+            description: "Leerstandstarif"
+
+          - name: c2umzug
+            description: "Umzugstarif"
+
+          - name: c2leeranlage
+            description: "Leeranlage"
+
+          - name: c2waermspeicher
+            description: "Wärmespeicher"
+
+          # Boni / Aktionen
+          - name: c2pFBonusStd
+            description: "Bonus Standard"
+
+          - name: c2pFBonusInd
+            description: "Bonus individuell"
+
+          - name: c2portbonusstd
+            description: "Bonus Portal"
+
+          - name: c2angebotSid
+            description: "Angebots-ID"
+
+          - name: c2onlinecom
+            description: "Onlinekommunikation"
+
+          - name: c2netzvorteil
+            description: "Netzvorteil"
+
+          # weitere Klassifikation
+          - name: c2versorgung
+            description: "Versorgungsart"
+
+          - name: c2zgr
+            description: "Zielgruppe"
+
+          # Zeitliche Felder
+          - name: createdate
+            description: "Erstellungsdatum"
+
+          - name: updatedate
+            description: "Änderungsdatum"
+
+          # Benutzer
+          - name: createuser
+            description: "Erstellt durch"
+
+          - name: updateuser
+            description: "Geändert durch"
+
+      # ---------------------------------------------
+      - name: contracts
+        description: "Vertragsstammdaten aus EVI"
+        
+        columns:
+          - name: PK
+            description: "Eindeutige Vertrags-ID"
+            tests:
+              - not_null
+              - unique
+
+          - name: customer_id
+            description: "Verknüpfung zum Kunden"
+
+          - name: product_id
+            description: "Produkt (Strom/Gas)"
+
+          - name: start_date
+            description: "Vertragsbeginn"
+
+          - name: end_date
+            description: "Vertragsende (NULL = aktiv)"
+
+      # ---------------------------------------------
+      - name: customers
+        description: "Kundenstammdaten aus EVI"
+        
+        columns:
+          - name: customer_id
+            description: "Eindeutige Kunden-ID"
+            tests:
+              - not_null
+              - unique
+
+          - name: birth_date
+            description: "Geburtsdatum (falls vorhanden)"
+
+          - name: zip_code
+            description: "Postleitzahl"
+
+      # ---------------------------------------------
+      - name: activities
+        description: "Kundeninteraktionen (Callcenter, CRM, etc.)"
+        
+        columns:
+          - name: activity_id
+            description: "Eindeutige Aktivitäts-ID"
+            tests:
+              - not_null
+
+          - name: contract_id
+            description: "Verknüpfung zum Vertrag"
+
+          - name: activity_type
+            description: "Typ der Aktivität (z. B. Kündigung, Anfrage)"
+
+          - name: activity_date
+            description: "Datum der Aktivität"
+
+      # ---------------------------------------------
+      
