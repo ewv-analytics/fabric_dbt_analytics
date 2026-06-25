@@ -484,6 +484,335 @@ sources:
 
           - name: updateuser
             description: "Geändert durch"
+      # ---------------------------------------------
+      - name: C2BONUS
+        description: "Bonus-Daten/Kunden- und Vertrags-Prämenien aus EVI "
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Bonusdatensatzes"
+            tests:
+              - not_null
+              - unique
+
+          - name: id
+            description: "Externe Bonus-ID"
+
+          # Referenzen
+          - name: cnpk
+            description: "FK zum Kunden"
+
+          - name: cupk
+            description: "FK zu Vertrag / Vertragskontext"
+
+          - name: cnacpk
+            description: "FK zu weiterem Vertrags-/Abrechnungskontext (Debitor)"
+
+          # Bonus-Informationen
+          - name: bonusbez
+            description: "Bezeichnung des Bonus"
+
+          - name: bonusart
+            description: "Typ des Bonus (z. B. Sofortbonus, Bestandsbonus)"
+
+          - name: bonusBetr
+            description: "Höhe des Bonus in EUR"
+
+          - name: bonusfehler
+            description: "Status oder Fehlergrund (z. B. ausgezahlt, Fehlerfälle)"
+      # ---------------------------------------------
+      - name: C2KD_OBEJKT       
+        description: "Objekt- und Beziehungstabelle mit zeitlicher Gültigkeit"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Objekts"
+            tests:
+              - not_null
+              - unique
+
+          # Objektbeziehungen
+          - name: c2kdnr
+            description: "FK zum Kunden"
+
+          - name: c2objekt
+            description: "FK zur Lokation/zum Objekt"
+
+          - name: c2beziehungsnr
+            description: "Beziehungsnummer"
+
+          # Zeitliche Gültigkeit 
+          - name: c2gueltigvon
+            description: "Gültigkeitsbeginn des Geschäftspartnerstatus"
+
+          - name: c2gueltigbis
+            description: "Gültigkeitsende des Geschäftspartnerstatus"
+
+          # Status
+          - name: c2gpstatus
+            description: "Geschäftspartnerstatus (Eigentümer, Wowi, Bewohner)"
+      # ---------------------------------------------
+      - name: C2LIMAKONTAK      
+        description: "Kontakt- und Kommunikationshistorie (CRM / Serviceinteraktionen) z.B. Beschwerden"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Kontakts"
+            tests:
+              - not_null
+              - unique
+
+          - name: tktxnr
+            description: "Ticketnummer / Referenz"
+
+          # Beziehungen
+          - name: customerpk
+            description: "FK zum Kunden"
+
+          - name: cnacpk
+            description: "FK zu weiterem Vertrags-/Kontaktkontext (Debitor)"
+
+          # Zeit
+          - name: tktktdt
+            description: "Zeitpunkt des Kontakts"
+
+          - name: tkerpg
+            description: "Rückmeldung / Verarbeitung im System"
+
+          # Kontaktstruktur
+          - name: tktyp
+            description: "Kontaktart (z.B. Beschwerde, Notiz)"
+
+          - name: tkmedium
+            description: "Kontaktmedium (Telefon, E-Mail etc.)"
+
+          - name: tktktyp
+            description: "Kontaktuntertyp (Kundenservice, Preise, Produkte, Messwertermittlung,...)"
+
+          - name: tkgrund
+            description: "Grund des Kontakts (Zählerstand, Abschlag, SEPA, Rechnung, Umzugsservice)"
+
+          - name: tkkenn
+            description: "Klassifizierungsmerkmal"
+
+          - name: tkricht
+            description: "Richtung (eingehend / ausgehend)"
+
+          # Inhalt
+          - name: tptext
+            description: "Freitextbeschreibung des Kontakts"
+            meta:
+              sensitive: true
+
+          - name: gruendetail
+            description: "Detailierter Kontaktgrund"
+      # ---------------------------------------------      
+      - name: C2PROVISION
+        description: "Provisionen für Vertrieb, Retention und Standardverträge"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Provisionsdatensatzes"
+            tests:
+              - not_null
+              - unique
+
+          # Provisionslogik
+          - name: c2provuvg
+            description: "Provision Uvg (technisches Feld, konstant)"
+
+          - name: c2vertriebspt
+            description: "Vertriebspartner / Vertriebsweg"
+
+          - name: c2provretention
+            description: "Retention-Provision (Bestandskundenbindung)"
+
+          - name: c2provstandard
+            description: "Standard-Provision"
+            
+          - name: cprovoptin
+            description: "Opt-in Provision"
+
+          # Systemhistorie
+          - name: createdate
+            description: "Erstellungsdatum"
+
+          - name: updatedate
+            description: "Änderungsdatum"
+
+          - name: createuser
+            description: "Erstellt durch"
+
+          - name: updateuser
+            description: "Geändert durch"
+      # ---------------------------------------------
+      - name: CAMPAIGN
+        description: "Marketing- und Vertriebskampagnen inkl. Budget-, Zeit- und Zielgrößen"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel der Kampagne"
+            tests:
+              - not_null
+              - unique
+
+          # Stammdaten
+          - name: campname
+            description: "Name der Kampagne"
+
+          - name: campdescription
+            description: "Beschreibung der Kampagne"
+
+          - name: campnumber
+            description: "Kampagnennummer (ID)"
+
+          - name: campstatus
+            description: "Status der Kampagne"
+
+          - name: responsible
+            description: "Verantwortliche Person (EWV Mitarbeiter)"
+
+          - name: targetgroup
+            description: "Zielgruppe"
+
+          - name: camptype
+            description: "Kampagnentyp"
+
+          # Zeit
+          - name: plannedstart
+            description: "Start der Kampagnenplanung/-vorbereitung"
+
+          - name: plannedend
+            description: "Ende der Kampagnenplanung/-vorbereitung"
+
+          - name: startdate
+            description: "Tatsächlicher Start"
+
+          - name: enddate
+            description: "Tatsächliches Ende"
+
+          # Budget / Kosten
+          - name: budgetphases
+            description: "Budget Phasen"
+
+          - name: costsphases
+            description: "Kosten Phasen"
+
+          - name: budgetcamp
+            description: "Budget Kampagne"
+
+          - name: remainbudgcamp
+            description: "Restbudget Kampagne"
+
+          - name: totalbudget
+            description: "Gesamtbudget"
+
+          - name: totalcosts
+            description: "Gesamtkosten"
+
+          - name: totalrembudg
+            description: "Restbudget gesamt"
+
+          - name: budgetfree
+            description: "Freies Budget"
+
+          - name: campbudgetttl
+            description: "Gesamtbudget (alternativ)"
+
+          - name: rembudg
+            description: "Restbudget"
+
+          # KPIs / Planung
+          - name: c2angebote_plan
+            description: "Geplante Angebote"
+
+          - name: c2leads_plan
+            description: "Geplante Leads"
+
+          - name: c2abschl_plan
+            description: "Geplante Abschlüsse"
+
+          - name: c2rueckl_plan
+            description: "Geplante Rückläufer"
+
+          # Kanäle / Kommunikation
+          - name: c2portorder
+            description: "Portal Order"
+
+          - name: c2kundengruppe
+            description: "Kundengruppe"
+
+          - name: c2com_strom
+            description: "Commodity Strom"
+
+          - name: c2com_gas
+            description: "Commodity Gas"
+
+          - name: c2outb_anzeige
+            description: "Outbound Anzeige"
+
+          - name: c2outb_brief
+            description: "Outbound Brief"
+
+          - name: c2outb_tarif
+            description: "Outbound Tarif"
+
+          # Ergebnisse / Performance
+          - name: c2resperf
+            description: "Performance Ergebnis"
+
+          - name: c2resmailf
+            description: "Mail Feedback"
+
+          - name: c2reslandpf
+            description: "Landingpage Feedback"
+
+          - name: c2restelf
+            description: "Telefon Feedback"
+
+          - name: c2resmail
+            description: "Mail Ergebnis"
+
+          - name: c2resaper
+            description: "Antwortquote"
+
+          - name: c2reslandpage
+            description: "Landingpage Ergebnis"
+
+          - name: c2restel
+            description: "Telefon Ergebnis"
+
+          # Produkt / Marktfokus
+          - name: c2bonus
+            description: "Bonuszuordnung"
+
+          - name: c2edl_strom
+            description: "EDL Strom"
+
+          - name: c2edl_gas
+            description: "EDL Gas"
+
+          - name: c2marktgebieta
+            description: "Marktgebiet A"
+
+          - name: c2marktgebietb
+            description: "Marktgebiet B"
+
+          - name: c2marktgebietc
+            description: "Marktgebiet C"
+
+          # weitere Steuerungsgrößen
+          - name: c2infiltration
+            description: "Infiltrationsrate"
+
+          - name: c2angebote
+            description: "Angebot (aggregiert)"
+
+
 
       # ---------------------------------------------
       - name: contracts
