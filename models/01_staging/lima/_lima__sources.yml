@@ -1,0 +1,365 @@
+version: 2
+
+sources:
+  - name: lima_raw
+    description: "LIMA Rohdaten - Abrechnungssystem"
+    schema: lima_raw
+
+    tables:
+      - name: kdnstmpf
+        description: "Kundenstammdaten aus LIMA"
+
+        columns:
+          # Technische Schlüssel
+          - name: recno
+            description: "Technische Datensatznummer"
+
+          - name: kkdnnr
+            description: "Kundennummer"
+
+          # Kundensegmentierung
+          - name: knatkz
+            description: "Kundenart"
+
+          - name: kmwkz
+            description: "Mahnwesen-Kennzeichen"
+
+          - name: kvstkn
+            description: "Vertragskennzeichen"
+
+          - name: kbonit
+            description: "Bonitätsklasse"
+
+          - name: ksambu
+            description: "Sammelbuchung"
+
+          - name: ksachb
+            description: "Sachbearbeiter"
+
+          # Informationsfelder
+          - name: kinfo1
+            description: "Informationsfeld 1"
+
+          - name: kinfo3
+            description: "Informationsfeld 3"
+
+          # Kundenbeziehung
+          - name: kgebdt
+            description: "Geburtsdatum"
+
+          - name: kgebdt2
+            description: "Weiteres Geburts-/Gründungsdatum"
+
+          - name: kaendt
+            description: "Änderungsdatum"
+
+          - name: kaenzt
+            description: "Änderungszeit"
+
+          - name: kaenpi
+            description: "Änderungsprozess"
+
+          - name: kaenpg
+            description: "Änderungsprogramm"
+
+          # Klassifikation
+          - name: kstakz
+            description: "Statuskennzeichen"
+
+          - name: kreodt
+            description: "Reorganisationsdatum"
+
+          - name: kkat
+            description: "Kategorie"
+
+          - name: ktyp
+            description: "Typ"
+
+          - name: ksegm
+            description: "Segment"
+
+          - name: kbranch
+            description: "Branche"
+
+          - name: kstenr
+            description: "Steuernummer"
+
+          # Kontakte
+          - name: khandle
+            description: "Kontaktkennzeichen"
+
+          - name: kintbr
+            description: "Interner Bereich"
+
+          - name: kanlnr
+            description: "Anlagennummer"
+
+          - name: kfirnr
+            description: "Firmennummer"
+
+          - name: kerdt
+            description: "Erfassungsdatum"
+
+          - name: kwerinf
+            description: "Werbeinformation"
+
+          # Klassifikationscodes
+          - name: ksperrkz
+            description: "Sperrkennzeichen"
+
+          - name: kloeschkz
+            description: "Löschkennzeichen"
+
+          - name: kanonymdt
+            description: "Anonymisierungsdatum"
+
+          - name: kadrart
+            description: "Adressart"
+
+          # Hauptansprechpartner
+          - name: kaanred
+            description: "Anrede"
+
+          - name: kfaname1
+            description: "Firmenname Zeile 1"
+
+          - name: kfaname2
+            description: "Firmenname Zeile 2"
+
+          - name: kfagebdt
+            description: "Geburtsdatum Ansprechpartner"
+
+          # Ansprechpartner 1
+          - name: kp1anred
+            description: "Anrede Ansprechpartner 1"
+
+          - name: kp1titel
+            description: "Titel Ansprechpartner 1"
+
+          - name: kp1nname
+            description: "Nachname Ansprechpartner 1"
+
+          - name: kp1vname
+            description: "Vorname Ansprechpartner 1"
+
+          - name: kp1gebdt
+            description: "Geburtsdatum Ansprechpartner 1"
+
+          # Ansprechpartner 2
+          - name: kp2anred
+            description: "Anrede Ansprechpartner 2"
+
+          - name: kp2titel
+            description: "Titel Ansprechpartner 2"
+
+          - name: kp2nname
+            description: "Nachname Ansprechpartner 2"
+
+          - name: kp2vname
+            description: "Vorname Ansprechpartner 2"
+
+          - name: kp2gebdt
+            description: "Geburtsdatum Ansprechpartner 2"
+
+          # Adresse
+          - name: kadrzusa1
+            description: "Adresszusatz 1"
+
+          - name: kadrzusa2
+            description: "Adresszusatz 2"
+
+          - name: kstrasse
+            description: "Straße"
+
+          - name: khausnr
+            description: "Hausnummer"
+
+          - name: khausnrzst
+            description: "Hausnummer Zusatz"
+
+          - name: kpostfach
+            description: "Postfach"
+
+          - name: kpostcode
+            description: "Postleitzahl"
+
+          - name: kcity
+            description: "Ort"
+
+          - name: kortsteil
+            description: "Ortsteil"
+
+          # Hash / Identifikation
+          - name: khashwert
+            description: "Hashwert"
+
+          - name: kkdnid
+            description: "Kunden-ID"
+
+          # Finanzdaten
+          - name: kaents
+            description: "Finanzkennzeichen"
+
+          - name: kaeint
+            description: "Intervall"
+
+          - name: kkleinst
+            description: "Kleinstkunde-Kennzeichen"
+
+          - name: kumsid
+            description: "Umsatz-ID"
+
+          - name: kerechpf
+            description: "Rechnungsprofil"
+
+          - name: kmastrnr
+            description: "Master-Nummer"
+      
+      - name: entstmpf
+        description: "Entnahmestellen, Messstellen und Lieferstellen aus LIMA"
+
+        columns:
+          # Schlüssel
+          - name: recno
+            description: "Technische Datensatznummer"
+
+          - name: ekdnnr
+            description: "Kundennummer"
+
+          - name: eznr
+            description: "Zählernummer"
+
+          - name: egernr
+            description: "Gerätenummer"
+
+          - name: einfoznr
+            description: "Informationsnummer"
+
+          # Stammdaten
+          - name: eeart
+            description: "Entnahmestellenart"
+
+          - name: evart
+            description: "Vertragsart"
+
+          - name: eves
+            description: "Versorgungsart"
+
+          - name: evbgdt
+            description: "Versorgungsbeginn"
+
+          - name: eksa
+            description: "Kostenstelle"
+
+          - name: elfd
+            description: "Laufende Nummer"
+
+          - name: esa
+            description: "Statuskennzeichen"
+
+          - name: ebez
+            description: "Bezeichnung"
+
+          - name: estras
+            description: "Straße"
+
+          - name: ehaus
+            description: "Hausnummer"
+
+          - name: ezus
+            description: "Hausnummer Zusatz"
+
+          - name: ewohn
+            description: "Wohnung"
+
+          - name: egerart
+            description: "Geräteart"
+
+          - name: efabr
+            description: "Hersteller"
+
+          - name: eztyp
+            description: "Zählertyp"
+
+          # Netz & Technik
+          - name: ehtnt
+            description: "Netzebene"
+
+          - name: emisch
+            description: "Mischkennzeichen"
+
+          - name: ewzw
+            description: "Wandlerkennzeichen"
+
+          - name: estz
+            description: "Tarifschaltung"
+
+          - name: enksta
+            description: "Netzstatus"
+
+          - name: ephase
+            description: "Phasenanzahl"
+
+          - name: ezugpr
+            description: "Zugangsprofil"
+
+          - name: emsbiln
+            description: "Messstellenbetreiber"
+
+          - name: emdllin
+            description: "Messdienstleister"
+
+          # Historie
+          - name: eersdt
+            description: "Erstellungsdatum"
+
+          - name: eerszt
+            description: "Erstellungszeit"
+
+          - name: eaendt
+            description: "Änderungsdatum"
+
+          - name: eaenzt
+            description: "Änderungszeit"
+
+          # Verbrauch
+          - name: eanvb
+            description: "Jahresverbrauch"
+
+          - name: eprovb
+            description: "Prognoseverbrauch"
+
+          - name: ekdwert
+            description: "Kundenwert"
+
+          - name: evorliefvb
+            description: "Vorlieferantenverbrauch"
+
+          # Bonus / Tarif
+          - name: ebonbt
+            description: "Bonusbetrag"
+
+          - name: ebonpr
+            description: "Bonusprozentsatz"
+
+          - name: ebontxt
+            description: "Bonusbezeichnung"
+
+          - name: ebonmlaufz
+            description: "Mindestlaufzeit Bonus"
+
+          - name: ebonmleinh
+            description: "Einheit Mindestlaufzeit"
+
+          # Produkt
+          - name: eproid
+            description: "Produkt-ID"
+
+          - name: ennproid
+            description: "Nachfolgeprodukt-ID"
+
+          - name: eprodt
+            description: "Produktbezeichnung"
+
+          - name: emvk
+            description: "Marktvertriebskennzeichen"
