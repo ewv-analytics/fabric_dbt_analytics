@@ -811,67 +811,1034 @@ sources:
 
           - name: c2angebote
             description: "Angebot (aggregiert)"
-
-
-
       # ---------------------------------------------
-      - name: contracts
-        description: "Vertragsstammdaten aus EVI"
-        
+      - name: CONTACTPERSON
+        description: "Kontaktpersonen aus EVI"
+
         columns:
-          - name: PK
-            description: "Eindeutige Vertrags-ID"
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel der Ansprechpartner/Kontaktperson"
             tests:
               - not_null
               - unique
 
-          - name: customer_id
-            description: "Verknüpfung zum Kunden"
+          - name: customerkey
+            description: "Kundenschlüssel (FK zum Kunden)"
 
-          - name: product_id
-            description: "Produkt (Strom/Gas)"
+          - name: personpk
+            description: "FK zu Person"
 
-          - name: start_date
+          # Organisation / Rolle
+          - name: departmentkey
+            description: "Abteilung (Key)"
+
+          - name: departmentaddition
+            description: "Zusatz zur Abteilung"
+
+          - name: department
+            description: "Abteilung (Beschreibung)"
+
+          - name: functionkey
+            description: "Funktions-Key"
+
+          - name: functiondesc
+            description: "Funktionsbeschreibung"
+
+          - name: influencekey
+            description: "Einflussgrad der Person"
+
+          - name: procurationkey
+            description: "Prokura / Vollmacht"
+
+          # Kommunikation / Kontext
+          - name: petsubject
+            description: "Lieblingsthema"
+
+          # Binäre Flags (distinct = 2)
+          - name: serialletters
+            description: "Serienbriefe aktiv"
+
+          - name: serialmails
+            description: "Serienmails aktiv"
+
+          - name: manualsalutation
+            description: "Manuelle Anrede"
+
+          - name: doubletchecked
+            description: "Dublette geprüft"
+
+          - name: useemail
+            description: "E-Mail Nutzung"
+
+          - name: usephone
+            description: "Telefon Nutzung"
+
+          - name: c2echolot
+            description: "Marketing-/Feedback-Flag"
+
+          - name: c2lastgang_frei
+            description: "Lastgang freigegeben"
+
+          # Zeitfelder
+          - name: dateofentry
+            description: "Eintrittsdatum"
+
+          - name: dateofseparation
+            description: "Austrittsdatum"
+
+          - name: createdate
+            description: "Erstellungsdatum"
+
+          - name: updatedate
+            description: "Änderungsdatum"
+
+          - name: useemaildate
+            description: "Aktivierungsdatum E-Mail"
+
+          # High Cardinality Freitext
+          - name: freetext1
+            description: "Kundenprofil"
+
+          - name: freetext3
+            description: "Kundenbefragung"
+
+          - name: freetext2
+            description: "Energyline Kommunal"
+
+          - name: freetext7
+            description: "Marktbericht"
+
+          - name: freetext8
+            description: "Unternehmerforum"
+
+          - name: freetext20
+            description: "Bemerkung"
+      # ---------------------------------------------
+      - name: CONTRACT
+        description: "Vertragsdaten inkl. Laufzeit, Produkt, Status und Zusatzfelder"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Vertrags"
+            tests:
+              - not_null
+              - unique
+
+          - name: customerpk
+            description: "FK zum Kunden"
+
+          - name: contractaccountpk
+            description: "FK zum Vertragskonto"
+
+          # Klassifikation
+          - name: conttypekey
+            description: "Vertragstyp"
+
+          - name: contstatuskey
+            description: "Vertragsstatus"
+
+          - name: producttypekey
+            description: "Produkttyp"
+
+          # Zeit
+          - name: contstartdate
             description: "Vertragsbeginn"
 
-          - name: end_date
-            description: "Vertragsende (NULL = aktiv)"
+          - name: contenddate
+            description: "Vertragsende"
 
-      # ---------------------------------------------
-      - name: customers
-        description: "Kundenstammdaten aus EVI"
-        
+          - name: extensionperiod
+            description: "Verlängerungsperiode"
+
+          - name: terminationperiod
+            description: "Kündigungsfrist"
+
+          - name: terminationon
+            description: "Kündigungsdatum"
+
+          - name: terminationextraord
+            description: "Außerordentliche Kündigung"
+
+          - name: terminationfor
+            description: "Kündigungsgrund Datum"
+
+          - name: contendoldcont
+            description: "Ende des alten Vertrags"
+
+          # Technik / Vertragsparameter
+          - name: locationnominalpower
+            description: "Nennleistung; bereitg./Kessel-Leistung"
+
+          - name: ratetypekey
+            description: "Tariftyp/Preisschlüssel"
+
+          - name: contcatkey
+            description: "Vertragskategorie"
+
+          # Weitere Events
+          - name: c2canceluntil
+            description: "Kündigungsfrist bis"
+
+          - name: c2neuerabschlda
+            description: "Datum neuer Abschlag"
+
+          # Werte
+          - name: freenumber1
+            description: "Anzahl Wohneinheiten je Vertrag"
+          - name: freenumber2
+            description: "Abschlag € pro Monat"
+          - name: freenumber3
+            description: "Rabatt Arbeitspreis"
+          - name: freenumber4
+            description: "Rabatt GP"
+          - name: freenumber5
+            description: "Zählerstand"
+          - name: freenumber10
+            description: "Debitor"
+          - name: freenumber11
+            description: "Angegebener Verbrauch aus Vorgang 22"
+          - name: freenumber12
+            description: "2. MAX-Verbrauch Abrechnungsjahr"
+          - name: freenumber13
+            description: "2. MAX-Verbrauch Vorjahr"
+          - name: freenumber14
+            description: "GP € (netto)"
+          - name: freenumber17
+            description: "Zählernummer"
+          - name: freenumber19
+            description: "Verlustzuschlag in %"
+          - name: freenumber22
+            description: "kWh/a"
+          - name: freenumber30
+            description: "Kundenwert"
+          - name: freenumber32
+            description: "Angegebener Verbrauch/Leistung"
+          - name: freenumber33
+            description: "Prognostizierte Arbeit/Leistung"
+          - name: freenumber34
+            description: "Bonusbetrag (netto)"
+          - name: freenumber35
+            description: "Bonus % (auf netto)"
+          - name: freenumber36
+            description: "Vertragsmenge/a"
+          - name: freenumber37
+            description: "Mindestmenge/a"
+          - name: freenumber38
+            description: "AP-Rabatt Betrag"
+          - name: freenumber39
+            description: "Vorgang"
+          - name: freenumber40
+            description: "Abschlagsvorgabe des Kunden"
+          - name: freenumber41
+            description: "Umrechnungsfaktor"
+          - name: freenumber42
+            description: "Verbrauch Vorlieferant"
+          - name: freenumber57
+            description: "Zählerstand (Info)"
+          - name: freenumber58
+            description: "Maximaler Verbrauc im Vorjahr"
+          - name: freenumber59
+            description: "AP €/kWh (netto)"
+
+          # Freie Datumsfelder
+          - name: freedate1
+            description: "Ablesedatum"
+          - name: freedate2
+            description: "Abschlgsbeginn"
+          - name: freedate3
+            description: "Ereignisdatum"
+          - name: freedate4
+            description: "Reorganisationsdatum"
+          - name: freedate17
+            description: "Kunde seit"
+          - name: freedate18
+            description: "Aktualisierungsdatum"
+          - name: freedate21
+            description: "Gültig ab"
+          - name: freedate22
+            description: "Produktbeginn ab"
+          - name: freedate29
+            description: "Abrechnung Wertstellung zum"
+
+          # Freitextfelder
+          - name: freetext1
+            description: "Abgangsgrund"
+          - name: freetext2
+            description: "Abgangsart"
+          - name: freetext3
+            description: "Neuer Anbieter"
+          - name: freetext4
+            description: "Alter Anbieter"
+          - name: freetext10
+            description: "Lastprofil"
+          - name: freetext11
+            description: "Bilanzkreis"
+          - name: freetext13
+            description: "Rechnungsversand"
+          - name: freetext14
+            description: "Energiesteuer-Kz."
+          - name: freetext15
+            description: "Abrechnungsgruppe"
+          - name: freetext16
+            description: "Ablesekennzeichen"
+          - name: freetext17
+            description: "Verbrauchsstelleninfo"
+          - name: freetext18
+            description: "Marktgebiet"
+          - name: freetext20
+            description: "Händler-Kz"
+          - name: freetext21
+            description: "Preisschlüssel_NN"
+          - name: freetext22
+            description: "Zählwert-PS_NN"
+          - name: freetext23
+            description: "Angemeldeter Verbrauch"
+          - name: freetext24
+            description: "Prognostizierter Verbrauch"
+          - name: freetext26
+            description: "KGS - Kundengruppenschlüssel"
+          - name: freetext30
+            description: "Zählernummer (neu)"
+          - name: freetext31
+            description: "Netzbetreiber-Name"
+          - name: freetext33
+            description: "Abrechnungsart"
+          - name: freetext34
+            description: "EEG-Kz"
+          - name: freetext35
+            description: "Abrechnung-Kz"
+          - name: freetext36
+            description: "KA"
+          - name: freetext37
+            description: "Konvert.-Umlage"
+          - name: freetext38
+            description: "Kündigungsfrist"
+          - name: freetext40
+            description: "Art des Zugangs"
+          - name: freetext41
+            description: "Kündigungsgrund LIMA"
+          - name: freetext42
+            description: "KWKG-Kz"
+          - name: freetext43
+            description: "Lieferform"
+          - name: freetext47
+            description: "Offshore Umlage"
+          - name: freetext48
+            description: "NN-Vertragsstatus"
+          - name: freetext51
+            description: "Schätzkennzeichen"
+          - name: freetext52
+            description: "PS MessSt.-Betr."
+          - name: freetext53
+            description: "PS Mess-DL"
+          - name: freetext54
+            description: "PS Abrechnung"
+          - name: freetext55
+            description: "PS Wandl/Umw. MSB"
+          - name: freetext57
+            description: "PS Komm.-Einh. MSB"
+          - name: freetext58
+            description: "PS Komm.-Einh. MDL"
+          - name: freetext59
+            description: "PS tech.-Steu. MSB"
+          - name: freetext71
+            description: "Vertriebskanal (alt)"
+          - name: freetext72
+            description: "Vertriebspartner"
+          - name: freetext73
+            description: "Aktionscode"
+          - name: freetext74
+            description: "EIC-Code Regelzone"
+          - name: freetext75
+            description: "EIC-Code-Bil.-Gebiet"
+          - name: freetext76
+            description: "Betriebsdruck"
+          - name: freetext77
+            description: "Angebots-ID"
+          - name: freetext80
+            description: "Kz ALV Umlage"
+          - name: freetext81
+            description: "Produkt-ID"
+          - name: freetext97
+            description: "Zählergröße"
+          - name: freetext99
+            description: "Bonustext"
+
+          # Weitere
+          - name: defaultinstallation
+            description: "Hauptanlage"
+
+          - name: custnoinvoice
+            description: "Kundenreferenz für Abrechnung"
+
+          - name: c2akpk
+            description: "FK zu weiterem Kontext"
+
+          - name: c2pro_id
+            description: "Produkt-ID"
+
+          - name: c2netzbt
+            description: "Netzbetrieb"
+
+          - name: c2churn
+            description: "Churn-Indikator"
+
+          - name: c2clv
+            description: "Customer Lifetime Value"
+      # ---------------------------------------------      
+      - name: CONTRACTACCOUNT
+        description: "Vertragskonten inkl. Kundenbezug und Zusatzattribute zur Bankverbingung"
+
         columns:
-          - name: customer_id
-            description: "Eindeutige Kunden-ID"
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Vertragskontos"
             tests:
               - not_null
               - unique
 
-          - name: birth_date
-            description: "Geburtsdatum (falls vorhanden)"
+          - name: contaccountno
+            description: "Vertragskontonummer"
 
-          - name: zip_code
-            description: "Postleitzahl"
+          - name: customerpk
+            description: "FK zum Kunden"
 
-      # ---------------------------------------------
-      - name: activities
-        description: "Kundeninteraktionen (Callcenter, CRM, etc.)"
-        
+          # Klassifikation
+          - name: contaccounttype
+            description: "Mandatsref/Typ des Vertragskontos"
+
+          # Freitexte
+          - name: freetext1
+            description: "Mahnausschluss Kz"
+          - name: freetext2
+            description: "Sperr-Kz"
+          - name: freetext3
+            description: "BIC"
+          - name: freetext4
+            description: "IBAN"
+          - name: freetext5 
+            description: "Mandatsverfallgrund"
+          - name: freetext6
+            description: "Mandatserzeugung"
+          - name: freetext7
+            description: "Bank"
+          - name: freetext8
+            description: "Kontonummer"
+          - name: freetext9
+            description: "Abw.Bankkunde"
+          - name: freetext10
+            description: "Zahlungsart-Kz"
+
+          # Numerische Felder
+          - name: freenumber1
+            description: "Debitorennummer"
+          - name: freenumber2
+            description: "Zahlweg"
+          - name: freenumber3
+            description: "Kundennummer"
+          - name: freenumber4
+            description: "Offene Forderung"
+          - name: freenumber5
+            description: "Mahnschlüssel"
+
+          # Datumsfeld
+          - name: freedate1
+            description: "Mandatsverfalldatum"
+
+          # Binäre Flags 
+          - name: freeboolean1
+            description: "Einzugsermächtigung schriftlich"
+          - name: freeboolean2
+            description: "SEPA verwenden"
+
+          # weitere relevante Felder
+          - name: ktoideingang
+            description: "Eingangskonto"
+          
+          - name: ktoidausgang
+            description: "Ausgangskonto"
+      # ---------------------------------------------   
+      - name: CUSTOMER
+        description: "Kundendaten inkl. Klassifikation, Freifelder und Zusatzinformationen"
+
         columns:
-          - name: activity_id
-            description: "Eindeutige Aktivitäts-ID"
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Kunden"
             tests:
               - not_null
+              - unique
 
-          - name: contract_id
-            description: "Verknüpfung zum Vertrag"
+          - name: customerno2
+            description: "Kundennummer"
 
-          - name: activity_type
-            description: "Typ der Aktivität (z. B. Kündigung, Anfrage)"
+          - name: personpk
+            description: "FK zu Person"
 
-          - name: activity_date
-            description: "Datum der Aktivität"
+          # Klassifikation
+          - name: customerrelationkey
+            description: "Kundenbindung"
 
+          - name: employeeoffice
+            description: "Organisationseinheit"
+
+          - name: employeesales
+            description: "Vertriebseinheit"
+
+          - name: keyaccountmanager
+            description: "Key Account Manager"
+
+          - name: termsofdeliverykey
+            description: "Lieferbedingungen"
+
+          # Freitexte
+          - name: freetext2
+            description: "Kontonummer"
+          - name: freetext3
+            description: "Bankleitzahl"
+          - name: freetext4
+            description: "Abw. Bankkunde"
+          - name: freetext5
+            description: "Anredeschlüssel"
+          - name: freetext6
+            description: "Bonität"
+          - name: freetext9
+            description: "Ansprachetyp"
+          - name: freetext12
+            description: "Internetberechtigung"
+          - name: freetext13
+            description: "Geschäftsp.Typ"
+          - name: freetext14
+            description: "Umsatz-ID Nr."
+          - name: freetext15
+            description: "Produkt"
+          - name: freetext18
+            description: "Kampagne"
+          - name: freetext20
+            description: "Produktinteresse"
+          - name: freetext21
+            description: "LIMA-ID"
+          - name: freetext23
+            description: "Werbeverbot"
+          - name: freetext24
+            description: "Vorname 1"
+          - name: freetext26
+            description: "Nachname 1"
+          - name: freetext27
+            description: "Vorname 2"
+          - name: freetext28
+            description: "Nachname 2"
+          - name: freetext29
+            description: "Anrede Klartext"
+          - name: freetext30
+            description: "Name anhängen"
+          - name: freetext32
+            description: "Kontaktperson"
+          - name: freetext37
+            description: "Lieferant"
+          - name: freetext38
+            description: "Abrechner"
+          - name: freetext39
+            description: "Kategorie"
+          - name: freetext40
+            description: "Steuernummer"
+          - name: freetext41
+            description: "MwSt-Kz"
+          - name: freetext42
+            description: "Vorsteuer Kz"
+          - name: freetext45  
+            description: "Aktion"
+          - name: freetext52
+            description: "Kundentyp"
+          - name: freetext53
+            description: "Segment"
+          - name: freetext54
+            description: "Branche"
+          - name: freetext65
+            description: "Abrechnungsstatus"
+          - name: freetext66
+            description: "Kundengruppe"
+          - name: freetext67
+            description: "Opt-In Telefon"
+          - name: freetext68
+            description: "Opt-In Email"
+          - name: freetext69
+            description: "Opt-In SMS"
+          - name: freetext71
+            description: "Opt-In Schriftlich"
+          - name: freetext72
+            description: "Opt-In Persönlich"
+          - name: freetext75
+            description: "Gasnetzbetreiber"
+          - name: freetext76
+            description: "Gasbedarf/a"
+          - name: freetext77
+            description: "Stromnetzbetreiber"
+          - name: freetext78
+            description: "Strombedarf/a"
+          - name: freetext79
+            description: "Branchencode"
+
+          # Numerische Felder
+          - name: freenumber1
+            description: "Kreditreform (Crefo) Nummer"
+          - name: freenumber2
+            description: "Anzahl Mitarbeiter"
+          - name: freenumber4
+            description: "Umsatz Soll"
+          - name: freenumber5
+            description: "Umsatz Ist"
+          - name: freenumber10
+            description: "Creditindex"
+
+          # Datumsfelder
+          - name: freedate1
+            description: "Crefo Auskunftsdatum"
+          - name: freedate2 
+            description: "Geburtsdatum Person 2"
+          - name: freedate10
+            description: "Änderungsdatum LIMA"
+          - name: freedate11
+            description: "Aktualisierungdatum"
+          - name: freedate20
+            description: "Reorganisationsdatum"
+
+          # Binäre Features
+          - name: freeboolean2
+            description: "KMU oder <"
+          - name: freeboolean5
+            description: "Bitte kein Außendienst"
+          - name: freeboolean6
+            description: "Wärmecontracting"
+          - name: freeboolean7
+            description: "Windkraft"
+          - name: freeboolean8
+            description: "Energiekonzepte"
+          - name: freeboolean9
+            description: "BHKW"
+          - name: freeboolean11
+            description: "Preisaffin"
+          - name: freeboolean12
+            description: "Ökoaffin"
+          - name: freeboolean13
+            description: "Kunden werben Kunden"
+          - name: freeboolean15
+            description: "Regionalverbunden"
+          - name: freeboolean16
+            description: "Loyal"
+          - name: freeboolean17
+            description: "Wechselaffin"
+          - name: freeboolean18
+            description: "Energieaudit"
+          - name: freeboolean19
+            description: "Smart Home"
+          - name: freeboolean20
+            description: "Reakquisepotential"
+          - name: freeboolean21
+            description: "Photovoltaik"
+          - name: freeboolean22
+            description: "E-Mobilität"
+          - name: freeboolean23
+            description: "Energiespeicher"
+          - name: freeboolean24
+            description: "Fernwärme"
+          - name: freeboolean25
+            description: "Energiemonitorint"
+          - name: freeboolean26
+            description: "Standsicherheitsprüfung"
+          - name: freeboolean27
+            description: "Druckluft"
+          - name: freeboolean28
+            description: "Kälte"
+          - name: freeboolean29
+            description: "Onlineaffin"
+          - name: freeboolean30
+            description: "Beleuchung"
+
+          # Weitere
+          - name: custtypekey
+            description: "Geschäftsbeziehung"
+
+          - name: logo
+            description: "Logo / Kennzeichen"
+
+          - name: campaign
+            description: "Kampagne"
+
+          - name: c2cssperrkz
+            description: "Sperrkennzeichen"
+
+          - name: c2csanonymdt
+            description: "Anonymisierungsdatum"
+
+          - name: c2dsgmanuell
+            description: "DSGVO manuell gesetzt"
+
+          - name: c2statusgp
+            description: "Geschäftspartnerstatus"
+
+          - name: c2anrede2
+            description: "Anrede"
+
+          - name: c2name2anh
+            description: "Namenszusatz"
+
+          - name: c12syncid
+            description: "Synchronisations-ID"
+
+          - name: c2limakz
+            description: "LIMA Kennzeichen"
+
+          - name: c2churn
+            description: "Churn Indikator"
+
+          - name: c2clv
+            description: "Customer Lifetime Value"
+
+          - name: c12bdewid
+            description: "BDEW ID"
+
+          - name: c2ansprache2
+            description: "Ansprache"
+
+          - name: c2adresszusatz2
+            description: "Adresszusatz 2"
+
+          - name: c2rgversand
+            description: "Versandart"
+
+          - name: c2adresszusatz1
+            description: "Adresszusatz 1"
+
+          - name: c2gaskd
+            description: "Gaskunde Zeitstempel"
+
+          - name: c2stromkd
+            description: "Stromkunde Zeitstempel"
+
+          - name: c2importpv
+            description: "Import PV"
+
+          - name: c2score
+            description: "Score"
+
+          # Namen
+          - name: name1
+            description: "Nachname"
+          - name: name2
+            description: "Zusatz 1"
+          - name: name3
+            description: "Zusatz 2"
+      # ---------------------------------------------      
+      - name: INSTALLATION
+        description: "Anlage/-Installationsdaten inkl. Produkt, Netz, Standort und Zusatzfelder"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel der Installation"
+            tests:
+              - not_null
+              - unique
+
+          - name: locationpk
+            description: "FK zur Location"
+
+          - name: customerpk
+            description: "FK zum Kunden"
+
+          - name: extrefno
+            description: "Externe Referenznummer"
+
+          # Klassifikation
+          - name: inststatuskey
+            description: "Installationsstatus"
+
+          - name: producttypekey
+            description: "Produkttyp (Strom, Gas etc.)"
+
+          - name: businesstypekey
+            description: "Geschäftstyp"
+
+          # Freitext
+          - name: freetext3
+            description: "Objektbeschreibung"
+          - name: freetext9
+            description: "Zählergröße"
+          - name: freetext12
+            description: "Druck mbar"
+          - name: freetext14
+            description: "Netzbetreiber"
+          - name: freetext16
+            description: "Anzahl HH/Strom - WE/Gas"
+          - name: freetext17
+            description: "Geräteart"
+          - name: freetext18
+            description: "Ausbaugrund"
+          - name: freetext19
+            description: "Einbaugrund"
+          - name: freetext21
+            description: "Abrechnungszeitraum von"
+          - name: freetext24
+            description: "Mess DL"
+          - name: freetext25
+            description: "Netzspannung"
+          - name: freetext26
+            description: "Netzebene Anschluss"
+          - name: freetext27
+            description: "Netzebene Messung"
+          - name: freetext28
+            description: "Messdruckstufe"
+          - name: freetext29
+            description: "Messstellenbetr."
+          - name: freetext33
+            description: "Info-Zählernummer"
+          - name: freetext34
+            description: "Sperr-Kz"
+          - name: freetext36
+            description: "Obis"
+          - name: freetext38
+            description: "Kommunikationseinrichtung"
+          - name: freetext39
+            description: "Zählertyp"
+          - name: freetext40
+            description: "Leistungsmessung"
+          - name: freetext44
+            description: "Marktgebiet"
+          - name: freetext45
+            description: "Zählerzugang"
+          - name: freetext48
+            description: "Zähleinrichtung"
+          - name: freetext49
+            description: "Zählerabgang"
+          - name: freetext50
+            description: "Zählerart"
+
+          # Numerische Felder
+          - name: freenumber2
+            description: "Netzanschlusskap. kVA"
+          - name: freenumber10
+            description: "Gesamtarbeit kWh"
+          - name: freenumber19
+            description: "RWE Gerät-Kz"
+          - name: freenumber37
+            description: "Kundenwert"
+          - name: freenumber38
+            description: "Jahresgasbedarf kWh"
+          - name: freenumber49
+            description: "Tageshöchstmenge kWh/d"
+
+          # Netz / Technik
+          - name: isu_gridlevel
+            description: "Netzebene"
+
+          - name: isu_spebene
+            description: "Spannungsebene"
+
+          - name: c12gridoper
+            description: "Netzbetreiber"
+
+          - name: c2msb
+            description: "Messstellenbetreiber"
+
+          - name: c2mdl
+            description: "Messdienstleister"
+
+          # Weitere Klassifikation
+          - name: c2tecein
+            description: "Messtechnische Einordnung"
+
+          - name: c2sapanlnr
+            description: "SAP Anlagennummer"
+      # --------------------------------------------- 
+      - name: OPTIN
+        description: "Opt-In Daten inkl. Kommunikationskanäle, Einwilligungen und Kontaktinformationen"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Opt-In Datensatzes"
+            tests:
+              - not_null
+              - unique
+
+          - name: documentkey
+            description: "Dokumentreferenz"
+
+          # Zeit
+          - name: approvaldate
+            description: "Datum der Zustimmung"
+
+          - name: createdate
+            description: "Erstellungsdatum"
+
+          - name: updatedate
+            description: "Änderungsdatum"
+
+          - name: c2entzugsdatum
+            description: "Widerrufsdatum"
+
+          - name: c2bis
+            description: "Enddatum der Gültigkeit"
+
+          - name: validdate
+            description: "Gültigkeitsdatum"
+
+          - name: c2letzteverwend
+            description: "Letzte Verwendung"
+
+          # Status / Klassifikation
+          - name: approvalstatus
+            description: "Status der Zustimmung"
+
+          - name: channel
+            description: "Kommunikationskanal"
+
+          - name: notice
+            description: "Hinweis / Bemerkung"
+
+          - name: c2herkunft
+            description: "Herkunft der Zustimmung"
+
+          - name: c2quelle
+            description: "Quelle der Zustimmung"
+
+          - name: requestedfor
+            description: "Angefordert für"
+
+          - name: c2gdprpersonpk
+            description: "GDPR Personenbezug"
+
+          # Kommunikation
+          - name: copekey
+            description: "Ansprechpartner"
+          - name: c2telefon
+            description: "Kommunikation per Telefon"
+          - name: c2mobiltelefon
+            description: "Kommunikation per Mobiltelefon"
+          - name: c2telefoncti
+            description: "TelefonCTI"
+          - name: c2mobiltelefoncti
+            description: "MobiltelefoCTI"
+
+          # Inhalt
+          - name: c2kommunikation
+            description: "Kommunikationstyp"
+
+          - name: c2protokoll
+            description: "Protokoll / Log"
+
+          - name: c2mail
+            description: "E-Mail Adresse"
+
+          - name: c2mailtemplate
+            description: "Mail Template"
+
+          - name: c2bewtext
+            description: "Bewertungstext"
+
+          # Kampagne / Marketing
+          - name: c2campaignname
+            description: "Kampagnenname"
+
+          - name: c2maternaid
+            description: "Marketing-ID"
+
+          # Weitere
+          - name: c2id
+            description: "LIMA ID"
+      # ---------------------------------------------       
+      - name: PERSON
+        description: "Personenstammdaten inkl. Klassifikation, Namen und Zusatzfelder"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel der Person"
+            tests:
+              - not_null
+              - unique
+
+          # IDs / Referenzen
+          - name: referenceno
+            description: "Externe Referenznummer"
+
+          # Namen / Beschreibung
+          - name: name1
+            description: "Nachname / Firma"
+          - name: name2
+            description: "Vorname / Zusatz"
+          - name: name3
+            description: "Zusatz 2"
+          - name: matchcode
+            description: "Kurzname"
+
+          # Klassifikation
+          - name: languagekey
+            description: "Sprache"
+
+          - name: persontypekey
+            description: "Personentyp"
+
+          - name: creditworthkey
+            description: "Bonitätsklasse"
+
+          # Zeitfelder
+          - name: dateoforigin
+            description: "Geburtsdatum / Herkunftsdatum"
+
+          # Titel / Attribute
+          - name: academictitle
+            description: "Akademischer Titel"
+
+          - name: petsubjecttext
+            description: "Interessensbereich / Hobby"
       # ---------------------------------------------
-      
+      - name: S_KEYTAB
+        description: "Zentrale EVI-Schlüsseltabelle mit Domänenwerten, Mapping-Informationen und Referenzwerten"
+
+        columns:
+          # Schlüssel
+          - name: pk
+            description: "Primärschlüssel des Schlüsselwertes"
+            tests:
+              - not_null
+              - unique
+
+          # Klassifikation
+          - name: keyrange
+            description: "Schlüsselbereich"
+
+          - name: keyname
+            description: "Technischer Schlüsselname"
+
+          - name: displayname
+            description: "Anzeigename"
+
+          - name: parentpk
+            description: "Übergeordneter Schlüssel"
+
+          - name: assignedpk
+            description: "Zugeordneter Schlüssel"
+
+          # Flags
+          - name: selectable
+            description: "Auswählbar"
+
+          - name: selectablesd
+            description: "Auswählbar SD"
+
+          - name: internalkey
+            description: "Interner Schlüssel"
+
+          - name: merged
+            description: "Zusammengeführt"
+
+          # Darstellung
+          - name: colorcode
+            description: "Farbcodierung"
+
+          - name: imageid
+            description: "Bild-/Icon-ID"
