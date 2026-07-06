@@ -1,0 +1,29 @@
+version: 2
+
+seeds:
+  - name: evi_feldnamen_mapping
+
+    description: Metadaten der EVI-Tabellen und Felder (Free-) Mapping
+
+    config:
+      delimiter: ";"      
+    column_types:
+      Haupt_oder_Linktabelle: varchar(20)
+      Name_der_Tabelle: varchar(50)
+      Name_des_Felds: varchar(100)
+      Datentyp: varchar(50)
+      Sprechender_Tabellenname: varchar(100)
+      Sprechender_Feldname: varchar(200)
+
+    columns:
+      - name: Haupt_oder_Linktabelle
+        tests:
+          - not_null
+
+      - name: Name_der_Tabelle
+        tests:
+          - not_null
+
+      - name: Name_des_Felds
+        tests:
+          - not_null

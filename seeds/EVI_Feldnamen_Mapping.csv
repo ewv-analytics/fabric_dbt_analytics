@@ -1,4 +1,4 @@
-﻿Haupt-_oder_Linktabelle;Name_der_Tabelle;Name_des_Felds;Datentyp;Sprechender_Tabellenname;Sprechender_Feldname
+﻿Haupt_oder_Linktabelle;Name_der_Tabelle;Name_des_Felds;Datentyp;Sprechender_Tabellenname;Sprechender_Feldname
 LINK;R11BDAC;ACTIVE;NUMBER(1,0);r11BDAc;Active.r11BDAc
 LINK;R11BDAC;CLIENTNO;FLOAT;r11BDAc;ClientNo.r11BDAc
 LINK;R11BDAC;CREATEDATE;DATE;r11BDAc;CreateDate.r11BDAc

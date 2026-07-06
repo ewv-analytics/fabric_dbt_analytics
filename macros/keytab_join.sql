@@ -1,22 +1,28 @@
+{% macro keytab_displayname(field, keyrange) %}
 
-{% macro keytab_join(
-        source_field,
-        keyrange,
-        alias
-) %}
-
-left join {{ ref('stg_evi_keytab') }} {{ alias }}
-    on {{ source_field }} = {{ alias }}.key_value
-   and {{ alias }}.key_range = '{{ keyrange }}'
+(
+    select displayname
+    from {{ ref('stg_evi_keytab') }}
+    where key_value = {{ field }}
+      and keyrange = '{{ keyrange }}'
+)
 
 {% endmacro %}
 
-{#
-Anwendung im Modell z.B.:
-{{ keytab_join(
-    'customer.custtypekey',
-    'KUNDENSTATUS',
-    'ks'
-) }}
 
+{#
+Anwendung z.B.:
+
+select
+
+    customerpk,
+
+    custtypekey,
+
+    {{ keytab_displayname(
+        'custtypekey',
+        'KUNDENSTATUS'
+    ) }} as kundenstatus
+
+from customer
 #}
