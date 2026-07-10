@@ -5,7 +5,7 @@ sources:
     description: "Rohdaten aus dem EVI-System (Verträge, Kunden, Aktivitäten)"
     
     database: "{{ target.database }}"   # optional (z. B. Fabric / DWH)
-    schema: evi_raw                     # Bronze / Landing Schema
+    schema: evi_raw                     # Landing Schema
     
     loader: "Fabric Mirroring / ETL Pipeline"
 

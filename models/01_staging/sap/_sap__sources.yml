@@ -1,0 +1,86 @@
+version: 2
+
+sources:
+
+  - name: sap_raw
+    description: "Rohdaten aus SAP"
+
+    database: "{{ target.database }}"
+    schema: sap_raw
+
+    loader: "Fabric Pipeline" # oder Fabric Mirroring
+
+    freshness:
+      warn_after:
+        count: 12
+        period: hour
+
+      error_after:
+        count: 24
+        period: hour
+
+    tables:
+
+      # -----------------------------------------
+      # CO - Controlling
+      # -----------------------------------------
+
+      - name: COEP
+        description: "CO Einzelposten"
+
+      - name: COBK
+        description: "CO Belegkopf"
+
+      # -----------------------------------------
+      # Aufträge
+      # -----------------------------------------
+
+      - name: AUFK
+        description: "Auftragsstamm"
+
+      # -----------------------------------------
+      # Anlagenbuchhaltung
+      # -----------------------------------------
+
+      - name: ANLA
+        description: "Anlagenstamm"
+
+      - name: ANLB
+        description: "Bewertungsbereiche"
+
+      # -----------------------------------------
+      # Kostenstellen
+      # -----------------------------------------
+
+      - name: CSKS
+        description: "Kostenstellenstamm"
+
+      - name: CSKT
+        description: "Kostenstellenbezeichnungen"
+
+      # -----------------------------------------
+      # Profit Center
+      # -----------------------------------------
+
+      - name: CEPC
+        description: "Profit Center"
+
+      # -----------------------------------------
+      # Sachkonten
+      # -----------------------------------------
+
+      - name: SKA1
+        description: "Sachkontenplan"
+
+      - name: SKAT
+        description: "Sachkontenbezeichnungen"
+
+      # -----------------------------------------
+      # Buchhaltung
+      # -----------------------------------------
+
+      - name: BKPF
+        description: "Belegkopf"
+
+      - name: BSEG
+        description: "Belegpositionen"
