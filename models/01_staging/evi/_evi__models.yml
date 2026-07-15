@@ -1,1 +1,29 @@
-hallo test
+version: 2
+
+models:
+  - name: stg_evi_customer
+
+    columns:
+
+      - name: customer_pk
+        description: "Primärschlüssel aus CUSTOMER.PK"
+
+#  - name: stg_evi_contract
+#
+#    columns:
+#
+#      - name: contract_pk
+#        description: "Primärschlüssel aus CONTRACT.PK"
+#
+#      - name: customer_pk
+#        description: "Fremdschlüssel auf Customer"
+#
+#  - name: stg_evi_instacc
+#
+#    columns:
+#
+#      - name: instacc_pk
+#        description: "Primärschlüssel aus C12INSTACC.PK"
+#
+#      - name: contract_pk
+#        description: "Fremdschlüssel auf Contract"

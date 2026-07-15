@@ -1,7 +1,7 @@
 select
 
-    CUSTOMERID,
-    CUSTOMERNAME,
-    CUSTOMERSTATUS
+    PK as customer_pk,
+    NAME1 as customer_nachname,
+    PERSONPK as person_pk
 
-from {{ source('evi_raw', 'C12CUSTOMER') }}
+from {{ source('evi_raw', 'CUSTOMER') }}
