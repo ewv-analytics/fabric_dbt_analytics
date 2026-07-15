@@ -16,7 +16,9 @@ Anwendung z.B.:
 select
 
     customerpk,
+    
 
+    
     custtypekey,
 
     {{ keytab_displayname(
