@@ -11,4 +11,3 @@ select
 from {{ source('bronze_evi', 'S_KEYTAB') }}
 
 where active = 1
-and pgs='E126'
